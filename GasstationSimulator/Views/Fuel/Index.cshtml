@@ -1,0 +1,72 @@
+﻿@using GasstationSimulator.Models
+@model List<GasPump>
+
+@{
+    ViewBag.Title = "Fuel";
+
+    int selectedGasPumpIndex = ViewBag.SelectedGasPumpIndex;
+    GasPump selectedGasPump = Model[selectedGasPumpIndex];
+}
+
+<h2>Fuel</h2>
+
+<div class="row">
+    <div class="col-3">
+        <div class="list-group">
+            @for (int index = 0; index < Model.Count; index++)
+            {
+                GasPump gasPump = Model[index];
+
+                <a class="list-group-item nav-link @(selectedGasPump == gasPump ? "active" : "")" href="?gasPumpIndex=@(index)">
+                    <div>
+                        Gas Pump @(index + 1)
+                    </div>
+
+                    @if (gasPump.GetIsActive())
+                    {
+                        <div class="badge badge-success">Active</div>
+                    }
+                    else
+                    {
+                        <div class="badge badge-danger">Inactive</div>
+                    }
+                </a>
+            }
+        </div>
+    </div>
+
+    <div class="col-9">
+        <h3>CHF @(Math.Round(selectedGasPump.GetPaymentAmount() * 20) / 20)</h3>
+        <h3>Liter @selectedGasPump.GetFueledLiter()</h3>
+
+        <div class="row">
+            @for (int index = 0; index < selectedGasPump.GetTaps().Count; index++)
+            {
+                Tap tap = selectedGasPump.GetTaps()[index];
+
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">@tap.GetGas().GetGasType()</h5>
+                            <p class="card-text">CHF pro Liter @tap.GetGas().GetPricePerLiter()</p>
+                            @if (!selectedGasPump.GetIsActive())
+                            {
+                                <a href="/Fuel/SelectTap?gasPumpIndex=@selectedGasPumpIndex&tapIndex=@index" class="btn btn-primary">Select</a>
+                            }
+                            else if (!tap.GetIsLocked())
+                            {
+                                using (Html.BeginForm("Fuel", "Fuel", FormMethod.Post, new { @class="form-inline" }))
+                                {
+                                    <input type="hidden" name="gasPumpIndex" value="@selectedGasPumpIndex" />
+                                    <input type="hidden" name="tapIndex" value="@index" />
+                                    <input type="number" step="0.1" min="1" max="150" name="liter" class="form-control" placeholder="Liter..." />
+                                    <input type="submit" value="Fuel" class="btn btn-primary" />
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

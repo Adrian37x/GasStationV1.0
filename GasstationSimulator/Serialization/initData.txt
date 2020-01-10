@@ -1,0 +1,2 @@
+number of cashregisters:2
+number of gaspumps:4
