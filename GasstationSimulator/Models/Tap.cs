@@ -7,9 +7,10 @@ namespace GasstationSimulator.Models
 {
     public class Tap
     {
-        private Gas gas;
-        private bool isLocked;
+        private Gas gas;        // gas of tap
+        private bool isLocked;  // possible to refuel or not
 
+        #region get set methods
         public Gas GetGas()
         {
             return gas;
@@ -24,6 +25,7 @@ namespace GasstationSimulator.Models
         {
             this.isLocked = isLocked;
         }
+        #endregion
 
         public Tap(Gas gas)
         {

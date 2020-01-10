@@ -7,17 +7,19 @@ namespace GasstationSimulator.Models
 {
     public class Tank
     {
-        private float minLiterAmount;
-        private float literAmount;
+        private GasType gasType;        // gas type of tank gas
+        private float minLiterAmount;   // critical fuel amount limit
+        private float literAmount;      // current liter stand
 
-        public float GetMinliterAmount()
+        #region get set methods
+        public GasType GetGasType()
         {
-            return minLiterAmount;
+            return gasType;
         }
 
-        public void SetMinLiterAmount(float minLiterAmount)
+        public float GetMinLiterAmount()
         {
-            this.minLiterAmount = minLiterAmount;
+            return minLiterAmount;
         }
 
         public float GetLiterAmount()
@@ -29,9 +31,11 @@ namespace GasstationSimulator.Models
         {
             this.literAmount = literAmount;
         }
+        #endregion
 
-        public Tank(float minLiterAmount, float literAmount)
+        public Tank(GasType gasType, float minLiterAmount, float literAmount)
         {
+            this.gasType = gasType;
             this.minLiterAmount = minLiterAmount;
             this.literAmount = literAmount;
         }

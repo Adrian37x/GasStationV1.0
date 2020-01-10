@@ -44,9 +44,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -91,22 +88,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Serialization\initData.txt" />
     <Content Include="Global.asax" />
     <Content Include="Images\Migrolino.png" />
-    <Content Include="Serialization\savedData.txt" />
+    <Content Include="Serialization\Receipts.txt" />
+    <Content Include="Serialization\Tanks.txt" />
+    <Content Include="Style\bootstrap.min.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\CashRegisterController.cs" />
-    <Compile Include="Controllers\FuelController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SupervisorController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CashRegister.cs" />
-    <Compile Include="Models\DataStorage.cs" />
     <Compile Include="Models\Gas.cs" />
     <Compile Include="Models\GasPump.cs" />
     <Compile Include="Models\GasStation.cs" />
@@ -116,6 +113,7 @@
     <Compile Include="Models\Tank.cs" />
     <Compile Include="Models\Tap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Models\Serialize.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -123,8 +121,8 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\CashRegister\Index.cshtml" />
-    <Content Include="Views\Fuel\Index.cshtml" />
+    <Content Include="Views\Customer\Index.cshtml" />
+    <Content Include="Views\Supervisor\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -7,30 +7,59 @@ namespace GasstationSimulator.Models
 {
     public class GasStation
     {
-        private string companyName;
-        private List<GasPump> gasPumps;
-        private List<CashRegister> cashRegisters;
+        private string companyName;             // name of the gas station company
+        private GasPump[] gasPumps;             // gas pumps of the gas station
+        private CashRegister[] cashRegisters;   // cash registers of the gas station
 
+        #region get set methods
         public string GetCompanyName()
         {
             return companyName;
         }
 
-        public List<GasPump> GetGasPumps()
+        public GasPump[] GetGasPumps()
         {
             return gasPumps;
         }
 
-        public List<CashRegister> GetCashRegisters()
+        public CashRegister[] GetCashRegisters()
         {
             return cashRegisters;
         }
+        #endregion
 
-        public GasStation(string companyName, List<GasPump> gasPumps, List<CashRegister> cashRegisters)
+        public GasStation(string companyName, GasPump[] gasPumps, CashRegister[] cashRegisters)
         {
             this.companyName = companyName;
             this.gasPumps = gasPumps;
             this.cashRegisters = cashRegisters;
         }
+
+        public float CalcRevenueOfLastYear()
+        {
+            // %TODO%
+            // Serialize.ReadReceipts()
+            // and then calc algorhythm
+            return 0;
+        }
+
+        public float CalcRevenueOfLastMonth()
+        {
+            // %TODO%
+            // Serialize.ReadReceipts()
+            // and then calc algorhythm
+            return 0;
+        }
+
+        public float CalcRevenueOfLastDay()
+        {
+            // %TODO%
+            // Serialize.ReadReceipts()
+            // and then calc algorhythm
+            return 0;
+        }
+
+        // %TODO%
+        // and what else you need...
     }
 }

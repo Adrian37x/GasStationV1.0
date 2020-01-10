@@ -7,35 +7,40 @@ namespace GasstationSimulator.Models
 {
     public class Receipt
     {
-        private float gasAmount;
-        private float price;
-        private GasType gasType;
-        private DateTime date;
-        private CashRegister cashRegister;
+        private GasType gasType;        // gas type info
+        private float fueledLiter;      // fueled liter info
+        private float paymentAmount;    // payment amount info
+        private DateTime timeStamp;     // time stamp of creation
 
-        public float GetGasAmount()
-        {
-            return this.gasAmount;
-        }
-
-        public float GetPrice()
-        {
-            return this.price;
-        }
-
+        #region get set methods
         public GasType GetGasType()
         {
-            return this.gasType;
+            return gasType;
         }
 
-        public DateTime GetDate()
+        public float GetFueledLiter()
         {
-            return this.date;
+            return fueledLiter;
         }
 
-        public CashRegister GetCashRegister()
+        public float GetPaymentAmount()
         {
-            return this.cashRegister;
+            // rounded to 0.05 step (42.23 -> 42.25)
+            return (float)Math.Round(paymentAmount * 20) / 20;
+        }
+
+        public DateTime GetTimeStamp()
+        {
+            return timeStamp;
+        }
+        #endregion
+
+        public Receipt(GasType gasType, float fueledLiter, float paymentAmount, DateTime timeStamp)
+        {
+            this.gasType = gasType;
+            this.fueledLiter = fueledLiter;
+            this.paymentAmount = paymentAmount;
+            this.timeStamp = timeStamp;
         }
     }
 }

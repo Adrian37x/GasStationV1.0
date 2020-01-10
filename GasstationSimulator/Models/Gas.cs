@@ -7,16 +7,17 @@ namespace GasstationSimulator.Models
 {
     public class Gas
     {
-        private GasType gastype;
-        private List<Tank> tanks;
-        private float pricePerLiter;
+        private GasType gastype;        // which type of gas
+        private Tank[] tanks;           // tanks with this gas type
+        private float pricePerLiter;    // how much cost per liter
 
+        #region get set methods
         public GasType GetGasType()
         {
             return gastype;
         }
 
-        public List<Tank> GetTanks()
+        public Tank[] GetTanks()
         {
             return tanks;
 
@@ -31,8 +32,9 @@ namespace GasstationSimulator.Models
         {
             this.pricePerLiter = pricePerLiter;
         }
+        #endregion
 
-        public Gas(GasType gastype, float pricePerLiter , List<Tank> tanks)
+        public Gas(GasType gastype, float pricePerLiter , Tank[] tanks)
         {
             this.gastype = gastype;
             this.pricePerLiter = pricePerLiter;

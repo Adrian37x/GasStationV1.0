@@ -9,6 +9,7 @@ namespace GasstationSimulator.Models
     {
         Bleifrei95,
         Super98,
-        Diesel
+        Diesel,
+        Empty
     }
 }

@@ -1,0 +1,192 @@
+﻿@using GasstationSimulator.Models
+@model GasStation
+
+@{
+    ViewBag.Title = "Customer";
+
+    GasPump[] gasPumps = Model.GetGasPumps();
+    CashRegister[] cashRegisters = Model.GetCashRegisters();
+    int selectedGasPumpIndex = ViewBag.SelectedGasPumpIndex;
+    GasPump selectedGasPump = gasPumps[selectedGasPumpIndex];
+}
+
+<h2>Customer</h2>
+
+<div class="row">
+    <div class="col-3">
+        <div class="list-group">
+            @for (int index = 0; index < gasPumps.Length; index++)
+            {
+                GasPump gasPump = gasPumps[index];
+
+                <a class="list-group-item nav-link @(selectedGasPump == gasPump ? "active" : "")" href="?gasPumpIndex=@(index)">
+                    <div>
+                        Gas Pump @(index + 1)
+                    </div>
+
+                    @if (gasPump.GetIsActive())
+                    {
+                        <div class="badge badge-success">Active</div>
+                    }
+                    else
+                    {
+                        <div class="badge badge-danger">Inactive</div>
+                    }
+                </a>
+            }
+        </div>
+    </div>
+
+    <div class="col-9">
+        <div class="row border-bottom mb-3">
+            <div class="col-3">
+                <h3>CHF @selectedGasPump.GetPaymentAmount().ToString("0.00")</h3>
+                <h3>Liter @selectedGasPump.GetFueledLiter().ToString("0.0")</h3>
+            </div>
+            @if (selectedGasPump.GetFueledLiter() > 0 && selectedGasPump.GetTaps().Where(tap => !tap.GetIsLocked()).Count() == 1)
+            {
+                <div class="col">
+                    <a href="/Customer/Checkout?gasPumpIndex=@selectedGasPumpIndex" class="btn btn-lg btn-primary">To checkout</a>
+                </div>
+            }
+        </div>
+
+        @if (selectedGasPump.GetTaps().Where(tap => !tap.GetIsLocked()).Count() > 0)
+        {
+            <div class="row">
+                @for (int index = 0; index < selectedGasPump.GetTaps().Length; index++)
+                {
+                    Tap tap = selectedGasPump.GetTaps()[index];
+
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">@tap.GetGas().GetGasType()</h5>
+                                <p class="card-text">CHF pro Liter @tap.GetGas().GetPricePerLiter()</p>
+                                @if (!selectedGasPump.GetIsActive())
+                                {
+                                    <a href="/Customer/SelectTap?gasPumpIndex=@selectedGasPumpIndex&tapIndex=@index" class="btn btn-primary">Select</a>
+                                }
+                                else if (!tap.GetIsLocked())
+                                {
+                                    using (Html.BeginForm("Refuel", "Customer", FormMethod.Post, new { @class = "form-inline" }))
+                                    {
+                                        <input type="hidden" name="gasPumpIndex" value="@selectedGasPumpIndex" />
+                                        <input type="hidden" name="tapIndex" value="@index" />
+                                        <input type="number" step="0.1" min="0.1" max="150" name="liter" class="form-control" placeholder="Liter..." required/>
+                                        <input type="submit" value="Fuel" class="btn btn-primary ml-2" />
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            if (cashRegisters.Where(cr => cr.GetGasPumpIndexOfPayment() == selectedGasPumpIndex).Count() == 0)
+            {
+                <div class="row mx-1">
+                    <div class="col">
+                        <div class="row">
+                            <h5>Choose a cash register</h5>
+                        </div>
+                        <div class="row">
+                            @for (int i = 0; i < cashRegisters.Length; i++)
+                            {
+                                if (cashRegisters[i].GetGasPumpIndexOfPayment() == null)
+                                {
+                                    <a href="/Customer/SelectCashRegister?gasPumpIndex=@selectedGasPumpIndex&cashRegisterIndex=@i"
+                                        class="btn btn-primary m-2">Cash Register@(i + 1)</a>
+                                }
+                                else
+                                {
+                                    <div class="btn btn-outline-primary m-2">Cash Register @(i + 1) <span class="badge badge-danger">Occupied</span></div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="row mx-1">
+                    <div class="col">
+                        @{
+                            CashRegister selectedCashRegister = cashRegisters.SingleOrDefault(cr => cr.GetGasPumpIndexOfPayment() == selectedGasPumpIndex);
+                        }
+
+                        @if (selectedCashRegister.GetReceiptOfPayment() == null)
+                        {
+                            <div class="row">
+                                <h5>Input: @selectedCashRegister.GetTotalInput().ToString("0.00") CHF</h5>
+                            </div>
+
+                            <div class="row">
+                                @using (Html.BeginForm("InsertMoney", "Customer", FormMethod.Post, new { @class = "form-inline" }))
+                                {
+                                    <input type="hidden" name="gasPumpIndex" value="@selectedGasPumpIndex" />
+                                    <input type="hidden" name="cashRegisterIndex" value="@Array.IndexOf(cashRegisters, selectedCashRegister)" />
+                                    <select name="value" class="form-control" required>
+                                        @for (int i = 0; i < selectedCashRegister.GetCoinTypes().Length; i++)
+                                        {
+                                            <option value="@selectedCashRegister.GetCoinTypes()[i]">@selectedCashRegister.GetCoinTypes()[i]</option>
+                                        }
+                                    </select>
+                                    <input type="submit" value="Insert" class="btn btn-primary ml-2" />
+                                }
+                            </div>
+                            <div class="row my-2">
+                                @if (selectedCashRegister.GetTotalInput() >= selectedGasPump.GetPaymentAmount())
+                                {
+                                    <a href="/Customer/Pay?gasPumpIndex=@selectedGasPumpIndex&cashRegisterIndex=@Array.IndexOf(cashRegisters, selectedCashRegister)"
+                                       class="btn btn-success">Pay</a>
+                                }
+                                else
+                                {
+                                    <div class="btn btn-outline-success">Pay</div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <div class="col-5">
+                                    @for (int i = 0; i < selectedCashRegister.GetChange().Length; i++)
+                                    {
+                                        <div class="alert alert-success" role="alert">
+                                            Returned @selectedCashRegister.GetChange()[i].ToString("0.00")
+                                        </div>
+                                    }
+                                </div>
+                                <div class="col-7">
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Receipt @Model.GetCompanyName()</h5>
+                                            <p class="card-text">Used gas @selectedCashRegister.GetReceiptOfPayment().GetGasType()</p>
+                                            <p class="card-text">
+                                                Date @selectedCashRegister.GetReceiptOfPayment().GetTimeStamp().ToString("dd.MM.yyyy")<br />
+                                                Time @selectedCashRegister.GetReceiptOfPayment().GetTimeStamp().ToString("HH:mm")
+                                            </p>
+                                            <p class="card-text">Fueled @selectedCashRegister.GetReceiptOfPayment().GetFueledLiter() l</p>
+                                            <p class="card-text">
+                                                <strong>
+                                                    Total @selectedCashRegister.GetReceiptOfPayment().GetPaymentAmount().ToString("0.00") CHF
+                                                </strong><br />
+                                                Paid @selectedCashRegister.GetTotalInput().ToString("0.00") CHF<br />
+                                                Returned @selectedCashRegister.GetTotalChange().ToString("0.00") CHF
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <a href="/Customer/ReleaseGasPump?gasPumpIndex=@selectedGasPumpIndex&cashRegisterIndex=@Array.IndexOf(cashRegisters, selectedCashRegister)"
+                                        class="btn btn-success float-right">Leave</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

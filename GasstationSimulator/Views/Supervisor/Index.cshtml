@@ -1,0 +1,89 @@
+﻿@using GasstationSimulator.Models;
+@model GasStation
+
+@{
+    ViewBag.Title = "Supervisor";
+
+    Tap[] taps = Model.GetGasPumps()[0].GetTaps();
+    GasPump[] gasPumps = Model.GetGasPumps();
+}
+
+<h2>Supervisor</h2>
+
+<div class="row mx-2">
+    <div class="col-4">
+        <h4 class="border-bottom">Tanks</h4>
+        <div class="row">
+            @foreach (Tap tap in taps)
+            {
+                foreach (Tank tank in tap.GetGas().GetTanks())
+                {
+                    <div class="col-6 my-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">@tank.GetGasType()</h5>
+                                @if (tank.GetLiterAmount() < tank.GetMinLiterAmount())
+                                {
+                                    <p class="card-text text-danger"><strong>Amount</strong> @tank.GetLiterAmount().ToString("0.0") l</p>
+                                    <span class="badge badge-danger">Low on gas!</span>
+                                }
+                                else
+                                {
+                                    <p class="card-text"><strong>Amount</strong> @tank.GetLiterAmount().ToString("0.0") l</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <div class="col-4">
+        <h4 class="border-bottom">Active Pumps</h4>
+        <div class="row">
+            @foreach (GasPump gasPump in gasPumps)
+            {
+                if (gasPump.GetIsActive())
+                {
+                    <div class="col-6 my-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Gas Pump @(Array.IndexOf(gasPumps, gasPump) +1)</h5>
+                                <p class="card-text">
+                                    <strong>Liter</strong> @gasPump.GetFueledLiter().ToString("0.0")<br />
+                                    <strong>CHF</strong> @gasPump.GetPaymentAmount().ToString("0.00")
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <div class="col-4">
+        <h4 class="border-bottom">Statistics</h4>
+        <div class="row mx-2">
+            <table class="table">
+                <tr>
+                    <th>Revenue last Year</th>
+                    <!-- %TODO% Model.CalcRevenueOfLastYear -->
+                    <td>143'250</td>
+                </tr>
+                <tr>
+                    <th>Revenue last month</th>
+                    <!-- %TODO% Model.CalcRevenueOfLastMonth -->
+                    <td>14'050</td>
+                </tr>
+                <tr>
+                    <th>Revenue today</th>
+                    <!-- %TODO% Model.CalcRevenueOfLastDay -->
+                    <td>304</td>
+                </tr>
+                <tr>
+                    <th>and so on...</th>
+                    <td>Silvan to do!!!</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
