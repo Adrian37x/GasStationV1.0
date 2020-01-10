@@ -90,8 +90,8 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="Images\Migrolino.png" />
-    <Content Include="Serialization\Receipts.txt" />
-    <Content Include="Serialization\Tanks.txt" />
+    <Content Include="SavedData\Receipts.txt" />
+    <Content Include="SavedData\Tanks.txt" />
     <Content Include="Style\bootstrap.min.css" />
     <Content Include="Web.config" />
   </ItemGroup>
