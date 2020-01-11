@@ -1,1 +1,2 @@
-﻿
+{"gasType":0,"fueledLiter":30.0,"paymentAmount":47.7,"timeStamp":"2020-01-11T15:48:45.7583363+01:00"}
+{"gasType":0,"fueledLiter":30.0,"paymentAmount":47.7,"timeStamp":"2020-01-11T15:51:38.9623219+01:00"}

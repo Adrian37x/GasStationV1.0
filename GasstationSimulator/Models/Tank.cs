@@ -5,6 +5,7 @@ using System.Web;
 
 namespace GasstationSimulator.Models
 {
+    [Serializable]
     public class Tank
     {
         private GasType gasType;        // gas type of tank gas

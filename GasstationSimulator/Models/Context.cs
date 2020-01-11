@@ -28,25 +28,49 @@ namespace GasstationSimulator.Models
                 new CashRegister(coinTypes)
             };
 
-            // %TODO%
-            // Serialize.ReadTanks() or create new as below
-            // if (Serialize.ReadTanks().Length > 0) { ... } else { create new as below }
+            Gas[] gases = createGases();
 
-            // create different gas with tanks
-            Gas[] gases = {
-                new Gas(GasType.Bleifrei95, 1.59f, new Tank[]{
-                    new Tank(GasType.Bleifrei95, 200, 1000),
-                    new Tank(GasType.Bleifrei95, 200, 500),
-                }),
-                new Gas(GasType.Super98, 1.62f, new Tank[] {
-                    new Tank(GasType.Bleifrei95, 200, 1000),
-                    new Tank(GasType.Bleifrei95, 200, 500),
-                }),
-                new Gas(GasType.Diesel, 1.77f, new Tank[] {
-                    new Tank(GasType.Bleifrei95, 200, 1000),
-                    new Tank(GasType.Bleifrei95, 200, 500),
-                })
-            };
+            Gas[] createGases()
+            {
+                //Serialize.ReadTanks() or create new as below
+                if (Serialize.ReadTanks().Length > 0)
+                {
+                    Tank[] tanks = Serialize.ReadTanks();
+                    Gas[] allGases = {
+                        new Gas(GasType.Bleifrei95, 1.59f, new Tank[] {
+                            tanks[0], tanks[1]
+                        }),
+                        new Gas(GasType.Super98, 1.62f, new Tank[] {
+                            tanks[2], tanks[3]
+                        }),
+                        new Gas(GasType.Diesel, 1.77f, new Tank[] {
+                            tanks[4], tanks[5]
+                        })
+                    };
+
+                    return allGases;
+                }
+                else
+                {
+                    // create different gas with tanks
+                    Gas[] allGases = {
+                        new Gas(GasType.Bleifrei95, 1.59f, new Tank[]{
+                            new Tank(GasType.Bleifrei95, 200, 1000),
+                            new Tank(GasType.Bleifrei95, 200, 500),
+                        }),
+                        new Gas(GasType.Super98, 1.62f, new Tank[] {
+                            new Tank(GasType.Bleifrei95, 200, 1000),
+                            new Tank(GasType.Bleifrei95, 200, 500),
+                        }),
+                        new Gas(GasType.Diesel, 1.77f, new Tank[] {
+                            new Tank(GasType.Bleifrei95, 200, 1000),
+                            new Tank(GasType.Bleifrei95, 200, 500),
+                        })
+                    };
+
+                    return allGases;
+                }
+            }
 
             // create gas pumps with taps
             List<GasPump> gasPumpsTemp = new List<GasPump>();

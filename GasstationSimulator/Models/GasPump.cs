@@ -97,8 +97,21 @@ namespace GasstationSimulator.Models
                 }
             }
 
-            // %TODO%
-            // Serialize.SaveTanks(tanks);
+            //Get all tanks to save all to file
+            Tank[] allTanks = { };
+            int index = 0;
+            foreach (Tap aTap in taps)
+            {
+                Tank[] tankArray = aTap.GetGas().GetTanks();
+                foreach (Tank aTank in tankArray)
+                {
+                    allTanks[index] = aTank;
+                    index++;
+                }
+            }
+
+            // Save tanks to file
+            Serialize.SaveTanks(allTanks);
         }
 
         // lock all taps

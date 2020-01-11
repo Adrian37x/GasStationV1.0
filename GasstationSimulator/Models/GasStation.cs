@@ -37,26 +37,44 @@ namespace GasstationSimulator.Models
 
         public float CalcRevenueOfLastYear()
         {
-            // %TODO%
-            // Serialize.ReadReceipts()
-            // and then calc algorhythm
-            return 0;
+            float total = 0;
+            Receipt[] receipts = Serialize.ReadReceipts();
+            foreach (Receipt receipt in receipts)
+            {
+                if (receipt.GetTimeStamp().AddYears(-1).Year == DateTime.Now.Year)
+                {
+                    total = total + receipt.GetPaymentAmount();
+                }
+            }
+            return total;
         }
 
         public float CalcRevenueOfLastMonth()
         {
-            // %TODO%
-            // Serialize.ReadReceipts()
-            // and then calc algorhythm
-            return 0;
+            float total = 0;
+            Receipt[] receipts = Serialize.ReadReceipts();
+            foreach (Receipt receipt in receipts)
+            {
+                if (receipt.GetTimeStamp().AddMonths(-1).Month == DateTime.Now.Month)
+                {
+                    total = total + receipt.GetPaymentAmount();
+                }
+            }
+            return total;
         }
 
         public float CalcRevenueOfLastDay()
         {
-            // %TODO%
-            // Serialize.ReadReceipts()
-            // and then calc algorhythm
-            return 0;
+            float total = 0;
+            Receipt[] receipts = Serialize.ReadReceipts();
+            foreach (Receipt receipt in receipts)
+            {
+                if (receipt.GetTimeStamp().AddDays(-1).Day == DateTime.Now.Day)
+                {
+                    total = total + receipt.GetPaymentAmount();
+                }
+            }
+            return total;
         }
 
         // %TODO%

@@ -127,9 +127,9 @@ namespace GasstationSimulator.Models
 
                 // creates receipt with gas pump data
                 receiptOfPayment = new Receipt(gasPump.GetSelectedGasType() ?? GasType.Empty, gasPump.GetFueledLiter(), gasPump.GetPaymentAmount(), DateTime.Now);
-
-                // %TODO%
-                // Serialize.SaveReceipt(receiptOfPayment);
+                
+                // saves receipt in file
+                Serialize.SaveReceipt(receiptOfPayment);
             }
         }
 
