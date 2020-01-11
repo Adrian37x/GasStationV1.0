@@ -59,12 +59,12 @@ namespace GasstationSimulator.Models
                             new Tank(GasType.Bleifrei95, 200, 500),
                         }),
                         new Gas(GasType.Super98, 1.62f, new Tank[] {
-                            new Tank(GasType.Bleifrei95, 200, 1000),
-                            new Tank(GasType.Bleifrei95, 200, 500),
+                            new Tank(GasType.Super98, 200, 1000),
+                            new Tank(GasType.Super98, 200, 500),
                         }),
                         new Gas(GasType.Diesel, 1.77f, new Tank[] {
-                            new Tank(GasType.Bleifrei95, 200, 1000),
-                            new Tank(GasType.Bleifrei95, 200, 500),
+                            new Tank(GasType.Diesel, 200, 1000),
+                            new Tank(GasType.Diesel, 200, 500),
                         })
                     };
 

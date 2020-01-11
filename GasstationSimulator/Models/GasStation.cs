@@ -35,6 +35,7 @@ namespace GasstationSimulator.Models
             this.cashRegisters = cashRegisters;
         }
 
+        //Calculate revenue of last year
         public float CalcRevenueOfLastYear()
         {
             float total = 0;
@@ -49,6 +50,7 @@ namespace GasstationSimulator.Models
             return total;
         }
 
+        //Calculate revenue of last month
         public float CalcRevenueOfLastMonth()
         {
             float total = 0;
@@ -63,6 +65,7 @@ namespace GasstationSimulator.Models
             return total;
         }
 
+        //Calculate revenue of last day
         public float CalcRevenueOfLastDay()
         {
             float total = 0;
