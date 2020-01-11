@@ -14,7 +14,7 @@ namespace GasstationSimulator.Models
         public static Tank[] ReadTanks()
         {
             Tank[] allTanks = { };
-            string filepath = AppDomain.CurrentDomain.BaseDirectory + "SavedData\\Receipts.txt";
+            string filepath = AppDomain.CurrentDomain.BaseDirectory + "SavedData\\Tanks.txt";
             string[] tanks = ReadTanksFromFile(filepath);
             for (int i = 0; i < tanks.Length; i++)
             {
@@ -53,7 +53,7 @@ namespace GasstationSimulator.Models
             }
 
             string receiptJSON = JsonConvert.SerializeObject(serializeTanks);
-            string filepath = AppDomain.CurrentDomain.BaseDirectory + "SavedData\\Receipts.txt";
+            string filepath = AppDomain.CurrentDomain.BaseDirectory + "SavedData\\Tanks.txt";
 
             WriteTanksToFile(receiptJSON, filepath);
         }
