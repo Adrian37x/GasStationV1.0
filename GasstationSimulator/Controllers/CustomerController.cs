@@ -36,7 +36,7 @@ namespace GasstationSimulator.Controllers
 
             // get tap and call 'Fuel'
             Tap tap = gasPump.GetTaps()[tapIndex];
-            gasPump.Fuel(tap, liter);
+            gasPump.Refuel(tap, liter);
 
             return RedirectToAction("Index", new { gasPumpIndex });
         }

@@ -13,157 +13,93 @@ namespace GasstationSimulator.Models
     {
         public static Tank[] ReadTanks()
         {
-            Tank[] allTanks = { };
-            string filepath = AppDomain.CurrentDomain.BaseDirectory + "SavedData\\Tanks.txt";
-            string[] tanks = ReadTanksFromFile(filepath);
-            for (int i = 0; i < tanks.Length; i++)
+            try
             {
-                Tank singleTank = JsonConvert.DeserializeObject<Tank>(tanks[i]);
-                allTanks[i] = singleTank;
-            }
+                List<Tank> tanks = new List<Tank>();
 
-            return allTanks;
+                string filepath = AppDomain.CurrentDomain.BaseDirectory + "SavedData\\Tanks.txt";
+
+                using (StreamReader sr = new StreamReader(filepath))
+                {
+                    tanks = JsonConvert.DeserializeObject<List<Tank>>(sr.ReadToEnd());
+                }
+
+                if (tanks == null)
+                    return new Tank[0];
+
+                return tanks.ToArray();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public static Receipt[] ReadReceipts()
         {
-            Receipt[] allReceipts = { };
-            string filepath = AppDomain.CurrentDomain.BaseDirectory + "SavedData\\Receipts.txt";
-            string[] receipts = ReadReceiptsFromFile(filepath);
-            for (int i = 0; i < receipts.Length; i++)
+            try
             {
-                Receipt singleReceipt = JsonConvert.DeserializeObject<Receipt>(receipts[i]);
-                allReceipts[i] = singleReceipt;
-            }
+                List<Receipt> receipts = new List<Receipt>();
 
-            return allReceipts;
+                string filepath = AppDomain.CurrentDomain.BaseDirectory + "SavedData\\Receipts.txt";
+
+                using (StreamReader sr = new StreamReader(filepath))
+                {
+                    while (sr.Peek() >= 0)
+                    {
+                        Receipt receipt = JsonConvert.DeserializeObject<Receipt>(sr.ReadLine());
+                        receipts.Add(receipt);
+                    }
+                }
+
+                return receipts.ToArray();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public static void SaveTanks(Tank[] tanks)
         {
+            // create list of serializable tanks
             List<TankSerialize> serializeTanks = new List<TankSerialize>();
 
-            foreach (var tank in tanks)
+            foreach (Tank tank in tanks)
             {
-                TankSerialize tankSerialize = new TankSerialize();
-                tankSerialize.gasType = tank.GetGasType();
-                tankSerialize.literAmount = tank.GetLiterAmount();
-                tankSerialize.minLiterAmount = tank.GetMinLiterAmount();
-                serializeTanks.Add(tankSerialize);
+                serializeTanks.Add(new TankSerialize(tank));
             }
 
-            string receiptJSON = JsonConvert.SerializeObject(serializeTanks);
+            string tanksJSON = JsonConvert.SerializeObject(serializeTanks);
             string filepath = AppDomain.CurrentDomain.BaseDirectory + "SavedData\\Tanks.txt";
 
-            WriteTanksToFile(receiptJSON, filepath);
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(filepath))
+                {
+                    sw.Write(tanksJSON);
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public static void SaveReceipt(Receipt receipt)
         {
-            ReceiptSerialize receiptSerialize = new ReceiptSerialize();
-            receiptSerialize.fueledLiter = receipt.GetFueledLiter();
-            receiptSerialize.gasType = receipt.GetGasType();
-            receiptSerialize.paymentAmount = receipt.GetPaymentAmount();
-            receiptSerialize.timeStamp = receipt.GetTimeStamp();
+            // create serializable receipt 
+            ReceiptSerialize serializeReceipt = new ReceiptSerialize(receipt);
 
-            string receiptJSON = JsonConvert.SerializeObject(receiptSerialize);
+            string receiptJSON = JsonConvert.SerializeObject(serializeReceipt);
             string filepath = AppDomain.CurrentDomain.BaseDirectory + "SavedData\\Receipts.txt";
 
-            AppendToFile(receiptJSON, filepath);
-        }
-
-        private static void AppendToFile(string json, string filepath)
-        {
             try
             {
                 using (StreamWriter sw = File.AppendText(filepath))
                 {
-                    sw.WriteLine(json);
+                    sw.WriteLine(receiptJSON);
                 }
-            }
-
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        private static void WriteTanksToFile(string json, string filepath)
-        {
-            try
-            {
-                string[] tanks = json.Split(',');
-
-                for (int i = 0; i < tanks.Length; i++)
-                {
-                    if (i == 0)
-                    {
-                        using (StreamWriter sw = new StreamWriter(filepath))
-                        {
-
-                            sw.WriteLine(tanks[i]);
-                        }
-                    }
-                    else
-                    {
-                        using (StreamWriter sw = File.AppendText(filepath))
-                        {
-
-                            sw.WriteLine(tanks[i]);
-                        }
-                    }
-                } 
-            }
-
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        private static string[] ReadReceiptsFromFile(string filepath)
-        {
-            string[] textContent = { };
-
-            try
-            {
-                using (StreamReader sr = new StreamReader(filepath))
-                {
-                    string line;
-                    int index = 0;
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        textContent[index] = line;
-                        index++;
-                    }
-                }
-
-                return textContent;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        private static string[] ReadTanksFromFile(string filepath)
-        {
-            string[] textContent = { };
-
-            try
-            {
-                using (StreamReader sr = new StreamReader("TestFile.txt"))
-                {
-                    string line;
-                    int index = 0;
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        textContent[index] = line;
-                        index++;
-                    }
-                }
-
-                return textContent;
             }
             catch (Exception e)
             {

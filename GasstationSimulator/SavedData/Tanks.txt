@@ -1,1 +1,1 @@
-﻿
+[{"gasType":0,"minLiterAmount":200.0,"literAmount":737.3},{"gasType":0,"minLiterAmount":200.0,"literAmount":500.0},{"gasType":1,"minLiterAmount":200.0,"literAmount":650.899963},{"gasType":1,"minLiterAmount":200.0,"literAmount":500.0},{"gasType":2,"minLiterAmount":200.0,"literAmount":818.4},{"gasType":2,"minLiterAmount":200.0,"literAmount":500.0}]

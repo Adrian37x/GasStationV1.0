@@ -35,52 +35,82 @@ namespace GasstationSimulator.Models
             this.cashRegisters = cashRegisters;
         }
 
-        //Calculate revenue of last year
+        // Calculate revenue of last year
         public float CalcRevenueOfLastYear()
         {
             float total = 0;
             Receipt[] receipts = Serialize.ReadReceipts();
             foreach (Receipt receipt in receipts)
             {
-                if (receipt.GetTimeStamp().AddYears(-1).Year == DateTime.Now.Year)
+                if (receipt.GetTimeStamp().Year == DateTime.Now.AddYears(-1).Year)
                 {
-                    total = total + receipt.GetPaymentAmount();
+                    total += receipt.GetPaymentAmount();
                 }
             }
             return total;
         }
 
-        //Calculate revenue of last month
+        // Calculate revenue of last month
         public float CalcRevenueOfLastMonth()
         {
             float total = 0;
             Receipt[] receipts = Serialize.ReadReceipts();
             foreach (Receipt receipt in receipts)
             {
-                if (receipt.GetTimeStamp().AddMonths(-1).Month == DateTime.Now.Month)
+                if (receipt.GetTimeStamp().Month == DateTime.Now.AddMonths(-1).Month)
                 {
-                    total = total + receipt.GetPaymentAmount();
+                    total += receipt.GetPaymentAmount();
                 }
             }
             return total;
         }
 
-        //Calculate revenue of last day
-        public float CalcRevenueOfLastDay()
+        // Calculate revenue of last week
+        public float CalcRevenueOfLastWeek()
+        {
+            float total = 0;
+            Receipt[] receipts = Serialize.ReadReceipts();
+
+            int daysToWeekBegin = +1 - (DateTime.Now.DayOfWeek == 0 ? 7 : (int)DateTime.Now.DayOfWeek);
+            foreach (Receipt receipt in receipts)
+            {
+                if (receipt.GetTimeStamp().Date < DateTime.Now.AddDays(daysToWeekBegin).Date
+                    && receipt.GetTimeStamp().Date >= DateTime.Now.AddDays(daysToWeekBegin -7).Date)
+                {
+                    total += receipt.GetPaymentAmount();
+                }
+            }
+            return total;
+        }
+
+        // Calculate revenue of today
+        public float CalcMoneyRevenueOfToday()
         {
             float total = 0;
             Receipt[] receipts = Serialize.ReadReceipts();
             foreach (Receipt receipt in receipts)
             {
-                if (receipt.GetTimeStamp().AddDays(-1).Day == DateTime.Now.Day)
+                if (receipt.GetTimeStamp().Day == DateTime.Now.Day)
                 {
-                    total = total + receipt.GetPaymentAmount();
+                    total += receipt.GetPaymentAmount();
                 }
             }
             return total;
         }
 
-        // %TODO%
-        // and what else you need...
+        // Calculate
+        public float CalcLiterRevenueOfToday(GasType gasType)
+        {
+            float total = 0;
+            Receipt[] receipts = Serialize.ReadReceipts();
+            foreach (Receipt receipt in receipts.Where(r => r.GetGasType() == gasType))
+            {
+                if (receipt.GetTimeStamp().Day == DateTime.Now.Day)
+                {
+                    total += receipt.GetFueledLiter();
+                }
+            }
+            return total;
+        }
     }
 }

@@ -8,8 +8,15 @@ namespace GasstationSimulator.SavedData
 {
     public class TankSerialize
     {
-        public GasType gasType;        // gas type of tank gas
-        public float minLiterAmount;   // critical fuel amount limit
-        public float literAmount;      // current liter stand
+        public GasType gasType;
+        public float minLiterAmount;
+        public float literAmount;
+
+        public TankSerialize(Tank tank)
+        {
+            gasType = tank.GetGasType();
+            minLiterAmount = tank.GetMinLiterAmount();
+            literAmount = tank.GetLiterAmount();
+        }
     }
 }

@@ -65,23 +65,32 @@
         <div class="row mx-2">
             <table class="table">
                 <tr>
-                    <th>Revenue last Year</th>
-                    <!-- %TODO% Model.CalcRevenueOfLastYear -->
-                    <td>143'250</td>
+                    <th>Revenue last year</th>
+                    <td>CHF @Model.CalcRevenueOfLastYear().ToString("0.00")</td>
                 </tr>
                 <tr>
                     <th>Revenue last month</th>
-                    <!-- %TODO% Model.CalcRevenueOfLastMonth -->
-                    <td>14'050</td>
+                    <td>CHF @Model.CalcRevenueOfLastMonth().ToString("0.00")</td>
+                </tr>
+                <tr>
+                    <th>Revenue last week</th>
+                    <td>CHF @Model.CalcRevenueOfLastWeek().ToString("0.00")</td>
                 </tr>
                 <tr>
                     <th>Revenue today</th>
-                    <!-- %TODO% Model.CalcRevenueOfLastDay -->
-                    <td>304</td>
+                    <td>CHF @Model.CalcMoneyRevenueOfToday().ToString("0.00")</td>
                 </tr>
                 <tr>
-                    <th>and so on...</th>
-                    <td>Silvan to do!!!</td>
+                    <th>Revenue today @GasType.Bleifrei95</th>
+                    <td>Liter @Model.CalcLiterRevenueOfToday(GasType.Bleifrei95).ToString("0.0")</td>
+                </tr>
+                <tr>
+                    <th>Revenue today @GasType.Super98</th>
+                    <td>Liter @Model.CalcLiterRevenueOfToday(GasType.Super98).ToString("0.0")</td>
+                </tr>
+                <tr>
+                    <th>Revenue today @GasType.Diesel</th>
+                    <td>Liter @Model.CalcLiterRevenueOfToday(GasType.Diesel).ToString("0.0")</td>
                 </tr>
             </table>
         </div>

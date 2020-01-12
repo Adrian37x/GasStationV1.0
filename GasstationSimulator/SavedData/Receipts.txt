@@ -1,2 +1,16 @@
-{"gasType":0,"fueledLiter":30.0,"paymentAmount":47.7,"timeStamp":"2020-01-11T15:48:45.7583363+01:00"}
 {"gasType":0,"fueledLiter":30.0,"paymentAmount":47.7,"timeStamp":"2020-01-11T15:51:38.9623219+01:00"}
+{"gasType":2,"fueledLiter":54.3,"paymentAmount":96.1,"timeStamp":"2020-01-12T11:45:49.7352201+01:00"}
+{"gasType":0,"fueledLiter":43.2,"paymentAmount":68.7,"timeStamp":"2020-01-12T12:47:37.7024689+01:00"}
+{"gasType":1,"fueledLiter":64.3,"paymentAmount":104.15,"timeStamp":"2019-12-05T12:54:38.3926805+01:00"}
+{"gasType":0,"fueledLiter":45.2,"paymentAmount":71.85,"timeStamp":"2019-12-30T12:56:41.2026201+01:00"}
+{"gasType":0,"fueledLiter":41.5,"paymentAmount":66.0,"timeStamp":"2019-12-27T12:56:56.5548744+01:00"}
+{"gasType":1,"fueledLiter":56.3,"paymentAmount":91.2,"timeStamp":"2020-01-04T12:57:06.3603806+01:00"}
+{"gasType":2,"fueledLiter":40.3,"paymentAmount":71.35,"timeStamp":"2019-12-29T12:56:28.358205+01:00"}
+{"gasType":2,"fueledLiter":54.0,"paymentAmount":95.6,"timeStamp":"2019-12-16T13:41:59.1852095+01:00"}
+{"gasType":0,"fueledLiter":64.3,"paymentAmount":102.25,"timeStamp":"2019-12-22T13:42:40.5364819+01:00"}
+{"gasType":1,"fueledLiter":63.9,"paymentAmount":103.5,"timeStamp":"2019-11-23T13:45:41.1993823+01:00"}
+{"gasType":2,"fueledLiter":54.7,"paymentAmount":96.8,"timeStamp":"2019-10-02T13:46:52.8207571+02:00"}
+{"gasType":1,"fueledLiter":41.5,"paymentAmount":67.25,"timeStamp":"2019-11-24T13:47:06.1206741+01:00"}
+{"gasType":2,"fueledLiter":32.6,"paymentAmount":57.7,"timeStamp":"2019-06-23T13:47:18.0313523+02:00"}
+{"gasType":0,"fueledLiter":34.5,"paymentAmount":54.85,"timeStamp":"2019-03-09T13:47:26.7391822+01:00"}
+{"gasType":1,"fueledLiter":76.2,"paymentAmount":123.45,"timeStamp":"2020-01-12T13:48:35.8161574+01:00"}

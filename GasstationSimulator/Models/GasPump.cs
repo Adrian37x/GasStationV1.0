@@ -64,32 +64,32 @@ namespace GasstationSimulator.Models
             }
         }
 
-        public void Fuel(Tap tap, float literToFuel)
+        public void Refuel(Tap selectedTap, float literToFuel)
         {
             // update fueledLiter and paymentAmount
             fueledLiter += literToFuel;
-            paymentAmount += tap.GetGas().GetPricePerLiter() * literToFuel;
+            paymentAmount += selectedTap.GetGas().GetPricePerLiter() * literToFuel;
             
             // get all tanks of tap (correct gas type) ordered by liter amount desc
-            Tank[] tanks = tap.GetGas().GetTanks().OrderByDescending(t => t.GetLiterAmount()).ToArray();
+            Tank[] tanskOfTap = selectedTap.GetGas().GetTanks().OrderByDescending(t => t.GetLiterAmount()).ToArray();
 
-            for (int i = 0; i < tanks.Length; i++)
+            for (int i = 0; i < tanskOfTap.Length; i++)
             {
                 // if not full liter amount is removed
                 if (literToFuel > 0)
                 {
                     // if tank has more liter than needed to remove
-                    if (tanks[i].GetLiterAmount() > literToFuel)
+                    if (tanskOfTap[i].GetLiterAmount() > literToFuel)
                     {
                         // remove liter amount
-                        tanks[i].SetLiterAmount(tanks[i].GetLiterAmount() - literToFuel);
+                        tanskOfTap[i].SetLiterAmount(tanskOfTap[i].GetLiterAmount() - literToFuel);
                         literToFuel = 0;
                     }
                     else
                     {
                         // remove as much liters out of tank as possible
-                        float literAmount = tanks[i].GetLiterAmount();
-                        tanks[i].SetLiterAmount(tanks[i].GetLiterAmount() - literAmount);
+                        float literAmount = tanskOfTap[i].GetLiterAmount();
+                        tanskOfTap[i].SetLiterAmount(tanskOfTap[i].GetLiterAmount() - literAmount);
 
                         // dicrease liter amount to remove
                         literToFuel -= literAmount;
@@ -98,20 +98,18 @@ namespace GasstationSimulator.Models
             }
 
             //Get all tanks to save all to file
-            Tank[] allTanks = { };
-            int index = 0;
-            foreach (Tap aTap in taps)
+            List<Tank> allTanks = new List<Tank>();
+            foreach (Tap tap in taps)
             {
-                Tank[] tankArray = aTap.GetGas().GetTanks();
-                foreach (Tank aTank in tankArray)
+                Tank[] tanks = tap.GetGas().GetTanks();
+                foreach (Tank tank in tanks)
                 {
-                    allTanks[index] = aTank;
-                    index++;
+                    allTanks.Add(tank);
                 }
             }
 
             // Save tanks to file
-            Serialize.SaveTanks(allTanks);
+            Serialize.SaveTanks(allTanks.ToArray());
         }
 
         // lock all taps
