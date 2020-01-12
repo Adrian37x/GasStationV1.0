@@ -47,21 +47,24 @@ namespace GasstationSimulator.Models
             }
             else
             {
-                // create different gas with tanks
-                gases = new Gas[] {
-                    new Gas(GasType.Bleifrei95, 1.59f, new Tank[]{
-                        new Tank(GasType.Bleifrei95, 200, 1000),
-                        new Tank(GasType.Bleifrei95, 200, 500),
-                    }),
-                    new Gas(GasType.Super98, 1.62f, new Tank[] {
-                        new Tank(GasType.Super98, 200, 1000),
-                        new Tank(GasType.Super98, 200, 500),
-                    }),
-                    new Gas(GasType.Diesel, 1.77f, new Tank[] {
-                        new Tank(GasType.Diesel, 200, 1000),
-                        new Tank(GasType.Diesel, 200, 500),
-                    })
+                // create gas with tanks
+                tanks = new Tank[] {
+                    new Tank(GasType.Bleifrei95, 200, 1000),
+                    new Tank(GasType.Bleifrei95, 200, 500),
+                    new Tank(GasType.Super98, 200, 1000),
+                    new Tank(GasType.Super98, 200, 500),
+                    new Tank(GasType.Diesel, 200, 1000),
+                    new Tank(GasType.Diesel, 200, 500)
                 };
+
+                gases = new Gas[] {
+                    new Gas(GasType.Bleifrei95, 1.59f, tanks.Where(t => t.GetGasType() == GasType.Bleifrei95).ToArray()),
+                    new Gas(GasType.Super98, 1.62f, tanks.Where(t => t.GetGasType() == GasType.Super98).ToArray()),
+                    new Gas(GasType.Diesel, 1.77f, tanks.Where(t => t.GetGasType() == GasType.Diesel).ToArray())
+                };
+
+                // save createt tanks
+                Serialize.SaveTanks(tanks);
             }
 
             // create gas pumps with taps

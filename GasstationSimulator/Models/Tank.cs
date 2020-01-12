@@ -28,6 +28,11 @@ namespace GasstationSimulator.Models
             return literAmount;
         }
 
+        public void SetMinLiterAmount(float minLiterAmount)
+        {
+            this.minLiterAmount = minLiterAmount;
+        }
+
         public void SetLiterAmount(float literAmount)
         {
             this.literAmount = literAmount;

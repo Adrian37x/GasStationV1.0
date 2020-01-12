@@ -33,6 +33,39 @@ namespace GasstationSimulator.Models
             this.companyName = companyName;
             this.gasPumps = gasPumps;
             this.cashRegisters = cashRegisters;
+
+            AjustMinLiterAmount();
+        }
+
+        // Ajusts the minLiterAmount in every tank of each gas type
+        // by the liter revenue of the corresponding month of the last year
+        private void AjustMinLiterAmount()
+        {
+            // get all tanks
+            List<Tank> tanks = new List<Tank>();
+            if (gasPumps.Length > 0)
+            {
+                foreach (Tap tap in gasPumps[0].GetTaps())
+                {
+                    foreach (Tank tank in tap.GetGas().GetTanks())
+                    {
+                        tanks.Add(tank);
+                    }
+                }
+            }
+
+            foreach (Tank tank in tanks)
+            {
+                // get month revenue of last year
+                float revenue = CalcRevenueOfLastYearByMonthByGasType(DateTime.Now.Month, tank.GetGasType());
+
+                int basicAmount = 200; // could be any basic amount (like a backup amount)
+                int factor = 10; // could be any factor
+                tank.SetMinLiterAmount(basicAmount + revenue / factor);
+            }
+
+            // save new tanks
+            Serialize.SaveTanks(tanks.ToArray());
         }
 
         // Calculate revenue of last year
@@ -43,6 +76,23 @@ namespace GasstationSimulator.Models
             foreach (Receipt receipt in receipts)
             {
                 if (receipt.GetTimeStamp().Year == DateTime.Now.AddYears(-1).Year)
+                {
+                    total += receipt.GetPaymentAmount();
+                }
+            }
+            return total;
+        }
+
+        // Calculate revenue of last year by month by gas type
+        public float CalcRevenueOfLastYearByMonthByGasType(int month, GasType gasType)
+        {
+            float total = 0;
+            Receipt[] receipts = Serialize.ReadReceipts();
+            foreach (Receipt receipt in receipts)
+            {
+                if (receipt.GetTimeStamp().Year == DateTime.Now.AddYears(-1).Year
+                    && receipt.GetTimeStamp().Month == month
+                    && receipt.GetGasType() == gasType)
                 {
                     total += receipt.GetPaymentAmount();
                 }
